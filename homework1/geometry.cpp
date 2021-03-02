@@ -34,24 +34,23 @@
     }
 
 
-PolygonalChain::PolygonalChain() {
-    }
-
-PolygonalChain::PolygonalChain(int k, Point *a) {
-        for (int i = 0; i < k; i++) {
-            V.push_back(a[i]);
+    PolygonalChain::PolygonalChain() {
         }
-    }
 
-PolygonalChain::PolygonalChain(const PolygonalChain &other) {
-        for (const auto & i : other.V) {
-            this->V.push_back(i);
+    PolygonalChain::PolygonalChain(int k, Point *a) {
+            for (int i = 0; i < k; i++) {
+                V.push_back(a[i]);
+            }
         }
-    }
+
+    PolygonalChain::PolygonalChain(const PolygonalChain &other) {
+            for (const auto & i : other.V) {
+                this->V.push_back(i);
+            }
+        }
 
     PolygonalChain& PolygonalChain::operator= (const PolygonalChain &other)  {
-        //todo vector clear is strange here
-        this->V.clear();
+        //todo vector clear is strange here fixed
         this->V = other.V;
         return *this;
     }
@@ -83,53 +82,54 @@ PolygonalChain::PolygonalChain(const PolygonalChain &other) {
     }
 
 
-ClosedPolygonalChain::ClosedPolygonalChain() {
-    }
+    ClosedPolygonalChain::ClosedPolygonalChain() {
+        }
 
-ClosedPolygonalChain::ClosedPolygonalChain(int k, Point *a) : PolygonalChain(k, a) {
+    ClosedPolygonalChain::ClosedPolygonalChain(int k, Point *a) : PolygonalChain(k, a) {
 
-    }
+        }
 
-ClosedPolygonalChain::ClosedPolygonalChain(const ClosedPolygonalChain &other) : PolygonalChain(other) {
-    }
+    ClosedPolygonalChain::ClosedPolygonalChain(const ClosedPolygonalChain &other) : PolygonalChain(other) {
+        }
 
-    ClosedPolygonalChain& ClosedPolygonalChain::operator= (const ClosedPolygonalChain &other) {
-        this->V.clear();
-        this->V = other.V;
-        return *this;
-    }
+        ClosedPolygonalChain& ClosedPolygonalChain::operator= (const ClosedPolygonalChain &other) {
+            this->V.clear();
+            this->V = other.V;
+            return *this;
+        }
 
-ClosedPolygonalChain::~ClosedPolygonalChain() {
-        V.clear();
-    }
+    ClosedPolygonalChain::~ClosedPolygonalChain() {
+            V.clear();
+        }
 
     double ClosedPolygonalChain::perimeter() const {
-        //todo copy-paste with prevoius
+            //todo copy-paste with prevoius
         double p = 0;
         for (unsigned i = 0; i < V.size() - 1; i++) {
             p += side_length(V[i], V[i+1]);
         }
         p += side_length(V[0], V[V.size()-1]);
         return p;
-    }
-
+        }
 
     Polygon::Polygon(int k, Point *a) : ClosedPolygonalChain(k, a) {
-    }
 
-Polygon::Polygon(const Polygon &other) : ClosedPolygonalChain(other) {
-    }
+        }
 
-    Polygon& Polygon::operator= (const Polygon &other) {
-        this->V.clear();
-        this->V = other.V;
-        return *this;
-    }
+    Polygon::Polygon(const Polygon &other) : ClosedPolygonalChain(other) {
 
-//todo indenation problems
-Polygon::~Polygon() {
+        }
 
-    }
+        Polygon& Polygon::operator= (const Polygon &other) {
+            this->V.clear();
+            this->V = other.V;
+            return *this;
+        }
+
+    //todo indenation problems fixed
+    Polygon::~Polygon() {
+
+        }
 
     double Polygon::area () const {
         double sum = 0;
@@ -174,12 +174,9 @@ Polygon::~Polygon() {
         double a1 = side_length(V[0], V[1]);
         double a2 = side_length(V[1], V[2]);
         double a3 = side_length(V[0], V[2]);
-        //todo return expression
-        if (pCheck(a1, a2, a3) || pCheck(a1, a3, a2) || pCheck(a2, a3, a1)) {
-            return true;
-        } else {
-            return false;
-        }
+        //todo return  fixed
+        return (pCheck(a1, a2, a3) || pCheck(a1, a3, a2) || pCheck(a2, a3, a1));
+         
     }
 
     Trapezoid::Trapezoid(int k, Point *a) : Polygon(k, a) {
