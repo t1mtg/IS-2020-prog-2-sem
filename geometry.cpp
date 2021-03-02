@@ -78,7 +78,7 @@ PolygonalChain::PolygonalChain(const PolygonalChain &other) {
 
 
     PolygonalChain::~PolygonalChain() {
-        V.clear();
+       
     }
 
 
@@ -99,7 +99,7 @@ ClosedPolygonalChain::ClosedPolygonalChain(const ClosedPolygonalChain &other) : 
     }
 
 ClosedPolygonalChain::~ClosedPolygonalChain() {
-        V.clear();
+        
     }
 
     double ClosedPolygonalChain::perimeter() const {
@@ -125,7 +125,7 @@ Polygon::Polygon(const Polygon &other) : ClosedPolygonalChain(other) {
     }
 
 Polygon::~Polygon() {
-        V.clear();
+        
     }
 
     double Polygon::area () const {
@@ -150,7 +150,7 @@ Polygon::~Polygon() {
     }
 
     Triangle::~Triangle() {
-        V.clear();
+       
     }
 
     double Triangle::area() const {
@@ -190,7 +190,7 @@ Polygon::~Polygon() {
     }
 
     Trapezoid::~Trapezoid() {
-        V.clear();
+        
     }
 
     double Trapezoid::slope(const Point& a, const Point& b) const {
@@ -250,7 +250,7 @@ Polygon::~Polygon() {
     }
 
     RegularPolygon::~RegularPolygon() {
-        V.clear();
+       
     }
 
     double RegularPolygon::perimeter() const {
