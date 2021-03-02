@@ -15,6 +15,7 @@ public:
     Point& operator= (const Point &other);
     double getX() const;
     double getY() const;
+    //todo default
     ~Point();
 };
 

@@ -50,6 +50,7 @@ PolygonalChain::PolygonalChain(const PolygonalChain &other) {
     }
 
     PolygonalChain& PolygonalChain::operator= (const PolygonalChain &other)  {
+        //todo vector clear is strange here
         this->V.clear();
         this->V = other.V;
         return *this;
@@ -103,6 +104,7 @@ ClosedPolygonalChain::~ClosedPolygonalChain() {
     }
 
     double ClosedPolygonalChain::perimeter() const {
+        //todo copy-paste with prevoius
         double p = 0;
         for (unsigned i = 0; i < V.size() - 1; i++) {
             p += side_length(V[i], V[i+1]);
@@ -124,6 +126,7 @@ Polygon::Polygon(const Polygon &other) : ClosedPolygonalChain(other) {
         return *this;
     }
 
+//todo indenation problems
 Polygon::~Polygon() {
 
     }
@@ -166,10 +169,12 @@ Polygon::~Polygon() {
         }
     };
 
+    //todo without sqrt
     bool Triangle::hasRightAngle() const {
         double a1 = side_length(V[0], V[1]);
         double a2 = side_length(V[1], V[2]);
         double a3 = side_length(V[0], V[2]);
+        //todo return expression
         if (pCheck(a1, a2, a3) || pCheck(a1, a3, a2) || pCheck(a2, a3, a1)) {
             return true;
         } else {
