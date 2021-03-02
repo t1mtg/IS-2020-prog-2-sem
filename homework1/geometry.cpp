@@ -93,7 +93,6 @@
         }
 
         ClosedPolygonalChain& ClosedPolygonalChain::operator= (const ClosedPolygonalChain &other) {
-            this->V.clear();
             this->V = other.V;
             return *this;
         }
@@ -121,7 +120,6 @@
         }
 
         Polygon& Polygon::operator= (const Polygon &other) {
-            this->V.clear();
             this->V = other.V;
             return *this;
         }
@@ -147,7 +145,6 @@
     }
 
     Triangle& Triangle::operator= (const Triangle &other) {
-        this->V.clear();
         this->V = other.V;
         return *this;
     }
@@ -186,7 +183,6 @@
     }
 
     Trapezoid& Trapezoid::operator= (const Trapezoid &other) {
-        this->V.clear();
         this->V = other.V;
         return *this;
     }
@@ -246,7 +242,6 @@
     }
 
     RegularPolygon& RegularPolygon::operator= (const RegularPolygon &other) {
-        this->V.clear();
         this->V = other.V;
         return *this;
     }
