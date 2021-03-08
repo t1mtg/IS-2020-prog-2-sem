@@ -15,8 +15,8 @@ public:
     Point& operator= (const Point &other);
     double getX() const;
     double getY() const;
-    //todo default
-    ~Point();
+    //fixed default
+    ~Point() = default;
 };
 
 class PolygonalChain {
@@ -31,7 +31,7 @@ public:
     virtual double perimeter() const;
     double getN() const;
     Point getPoint(int n) const;
-    virtual ~PolygonalChain();
+    virtual ~PolygonalChain() = default;
 };
 
 class ClosedPolygonalChain : public PolygonalChain {
@@ -40,7 +40,7 @@ public:
     ClosedPolygonalChain(int k, Point *a);
     ClosedPolygonalChain(const ClosedPolygonalChain &other);
     ClosedPolygonalChain& operator= (const ClosedPolygonalChain &other);
-    ~ClosedPolygonalChain();
+    ~ClosedPolygonalChain() = default;
     double perimeter() const override;
 };
 
@@ -50,7 +50,7 @@ public:
     Polygon(int k, Point *a);
     Polygon(const Polygon &other);
     Polygon &operator=(const Polygon &other);
-    ~Polygon();
+    ~Polygon() = default;
     virtual double area() const;
 };
 
@@ -59,7 +59,7 @@ public:
     Triangle(int k, Point *a);
     Triangle(const Triangle &other);
     Triangle& operator= (const Triangle &other);
-    ~Triangle();
+    ~Triangle() = default;
     double area() const override;
     bool pCheck(double &a1, double &a2, double &a3) const;
     bool hasRightAngle() const;
@@ -70,7 +70,7 @@ public:
     Trapezoid(int k, Point *a);
     Trapezoid(const Trapezoid &other);
     Trapezoid& operator= (const Trapezoid &other);
-    ~Trapezoid();
+    ~Trapezoid() = default;
     double slope(const Point& a, const Point& b) const;
     double point_to_line_dist(const Point& x, const Point& l1, const Point& l2) const;
     std::pair<double,double> height_square() const;
@@ -84,8 +84,7 @@ public:
     RegularPolygon(int k, Point *a);
     RegularPolygon(const RegularPolygon &other);
     RegularPolygon& operator= (const RegularPolygon &other);
-    ~RegularPolygon();
+    ~RegularPolygon() = default;
     double perimeter() const override;
     double area() const override;
 };
-
