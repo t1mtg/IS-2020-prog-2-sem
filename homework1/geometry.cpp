@@ -92,7 +92,7 @@ ClosedPolygonalChain& ClosedPolygonalChain::operator= (const ClosedPolygonalChai
 
 double ClosedPolygonalChain::perimeter() const {
     //fixed copy-paste with prevoius
-    double p = perimeter();
+    double p = PolygonalChain::perimeter();
     p += side_length(V[0], V[V.size()-1]);
     return p;
 }
@@ -140,7 +140,7 @@ double Triangle::area() const {
 }
 
 bool Triangle::pCheck(double &a1, double &a2, double &a3) const {
-    return ((a1 + a2 - a3) < eps);
+    return (abs(a1 + a2 - a3) < eps);
 };
 
 //fixed without sqrt
