@@ -10,7 +10,7 @@ private:
     int n = abs(max_power - min_power) + 1;
     int *V = new int[n];
     //fixed private
-    void Format(Polynomial &Poly);
+    void Format();
 public:
 
     Polynomial();
