@@ -9,13 +9,13 @@ private:
     int max_power = 0;
     int n = abs(max_power - min_power) + 1;
     int *V = new int[n];
+    //fixed private
+    void Format(Polynomial &Poly);
 public:
 
     Polynomial();
     Polynomial(int min_power_, int max_power_, const int *elements);
     void show() const;
-    //todo private
-    void Format(Polynomial &Poly);
     Polynomial(const Polynomial &other);
     Polynomial &operator = (const Polynomial &other);
     bool operator ==(Polynomial lhs);
