@@ -20,7 +20,7 @@ max_power(max_power_), n(abs(max_power - min_power) + 1) {
         cout << endl;
         cout << min_power << " " << max_power << endl;
     }
-
+	//todo useless arg
     void Polynomial::Format(Polynomial &Poly) {
         while (V[n - 1] == 0 && n != 1) {
             max_power--;
@@ -50,6 +50,7 @@ Polynomial::Polynomial(const Polynomial &other){
 
 
     Polynomial & Polynomial::operator = (const Polynomial &other)  {
+        //todo check if other == *this
         delete [] this->V;
         this->n = other.n;
         this->max_power = other.max_power;
@@ -66,6 +67,7 @@ Polynomial::Polynomial(const Polynomial &other){
     }
 
 
+    //todo const&
     bool Polynomial::operator ==(Polynomial lhs) {
         lhs.Format(lhs);
         this->Format(*this);
@@ -87,6 +89,9 @@ Polynomial::Polynomial(const Polynomial &other){
         return !(*this == rhs);
     }
 
+    //todo + from +=
+    //todo const Polynomial&, int d
+    // a += b, a-= b -> a += d * b
     Polynomial Polynomial::operator+ (const Polynomial &rhs) const {
         int max_degree = max(rhs.max_power, this->max_power);
         int min_degree = min(rhs.min_power, this->min_power);
@@ -118,6 +123,7 @@ Polynomial::Polynomial(const Polynomial &other){
     }
 
     Polynomial Polynomial::operator - () const {
+        //todo vars from small letter
         Polynomial Res(*this);
         for (int i = 0; i < n; ++i) {
             Res.V[i] = -Res.V[i];
@@ -125,6 +131,7 @@ Polynomial::Polynomial(const Polynomial &other){
         return Res;
     }
 
+    //todo without unary -
     Polynomial Polynomial::operator - (const Polynomial &rhs) const {
         Polynomial minuend(*this);
         minuend = minuend + (-rhs);
@@ -167,6 +174,7 @@ Polynomial::Polynomial(const Polynomial &other){
 
     Polynomial Polynomial::operator / (const int divider) {
         Polynomial tmp(*this);
+        //todo for_each
         for (int i = 0; i < tmp.n; i++) {
             tmp.V[i] /= divider;
         }
@@ -202,6 +210,7 @@ Polynomial::Polynomial(const Polynomial &other){
         if (index < this->min_power)
             this->min_power = index;
         this->n = abs(max_power - min_power) + 1;
+        //todo memory-leak
         int *V2 = new int[this->n]();
         for (int i = 0; i < tmp; i++)
             V2[i] = this->V[i];
@@ -210,6 +219,7 @@ Polynomial::Polynomial(const Polynomial &other){
         return this->V[index - this->min_power];
     }
 
+    //todo O(n)
     double Polynomial::get(int value) {
         double result = 0;
         for (int i = 0; i < this->n; i++) {

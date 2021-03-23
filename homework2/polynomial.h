@@ -14,6 +14,7 @@ public:
     Polynomial();
     Polynomial(int min_power_, int max_power_, const int *elements);
     void show() const;
+    //todo private
     void Format(Polynomial &Poly);
     Polynomial(const Polynomial &other);
     Polynomial &operator = (const Polynomial &other);
@@ -25,9 +26,10 @@ public:
     Polynomial operator += (const Polynomial &rhs);
     Polynomial operator -= (const Polynomial &rhs);
     Polynomial operator * (const Polynomial &rhs) const;
+    //todo const int 
     Polynomial operator / (const int divider);
     Polynomial & operator *= (const Polynomial &rhs);
-
+    //todo & where?
     Polynomial & operator *= (const int multiplier);
     Polynomial & operator /= (const int divider);
 
