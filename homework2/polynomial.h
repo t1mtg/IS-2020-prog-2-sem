@@ -11,6 +11,7 @@ private:
     int *V = new int[n];
     //fixed private
     void Format();
+    Polynomial sign(const Polynomial &lhs, const Polynomial &rhs, int d);
 public:
 
     Polynomial();
@@ -18,23 +19,22 @@ public:
     void show() const;
     Polynomial(const Polynomial &other);
     Polynomial &operator = (const Polynomial &other);
-    bool operator ==(Polynomial lhs);
-    bool operator != ( Polynomial &rhs);
+    bool operator ==(const Polynomial &lhs) const;
+    bool operator != ( Polynomial &rhs) const;
     Polynomial operator+ (const Polynomial &rhs) const;
     Polynomial operator - () const;
     Polynomial operator - (const Polynomial &rhs) const;
     Polynomial operator += (const Polynomial &rhs);
     Polynomial operator -= (const Polynomial &rhs);
     Polynomial operator * (const Polynomial &rhs) const;
-    //todo const int 
-    Polynomial operator / (const int divider);
-    Polynomial & operator *= (const Polynomial &rhs);
-    //todo & where?
-    Polynomial & operator *= (const int multiplier);
-    Polynomial & operator /= (const int divider);
-
-    int operator[] (const int index) const;
-    int &operator[] (const int index);
+    Polynomial operator / (int divider);
+    Polynomial operator *= (const Polynomial &rhs);
+    //fixed const int
+    //fixed & where?
+    Polynomial operator *= (int multiplier);
+    Polynomial operator /= (int divider);
+    int operator[] (int index) const;
+    int &operator[] (int index);
     double get(int value);
     ~Polynomial();
     friend Polynomial operator * (int multiplier, const Polynomial &rhs);
@@ -45,5 +45,5 @@ public:
 
 std::istream& operator >> (std::istream &in, Polynomial &Poly);
 std::ostream& operator << (std::ostream &out, const Polynomial &Poly);
-Polynomial operator * (const Polynomial &rhs, const int multiplier);
-Polynomial operator * (const int multiplier, const Polynomial &rhs);
+Polynomial operator * (const Polynomial &rhs, int multiplier);
+Polynomial operator * (int multiplier, const Polynomial &rhs);
