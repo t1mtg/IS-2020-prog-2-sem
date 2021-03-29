@@ -1,269 +1,247 @@
+#include <algorithm>
 #include "polynomial.h"
 using namespace std;
 
 
 Polynomial::Polynomial() : min_power(0), max_power(0), n(1) {
-        V[0] = 0;
-    }
+    V[0] = 0;
+}
 
 Polynomial::Polynomial(int min_power_, int max_power_, const int *elements) : min_power(min_power_),
-max_power(max_power_), n(abs(max_power - min_power) + 1) {
-        for (auto i = 0; i < n; i++) {
-            this->V[i] = elements[i];
-        }
+                                                                              max_power(max_power_), n(abs(max_power - min_power) + 1) {
+    for (auto i = 0; i < n; i++) {
+        this->V[i] = elements[i];
+    }
+}
+
+void Polynomial::show() const {
+    for (auto i = 0; i < n; i++) {
+        cout << V[i] << " ";
+    }
+    cout << endl;
+    cout << min_power << " " << max_power << endl;
+}
+//fixed useless arg
+void Polynomial::Format() {
+    while (V[n - 1] == 0 && n != 1) {
+        max_power--;
+        n--;
     }
 
-    void Polynomial::show() const {
-        for (auto i = 0; i < n; i++) {
-            cout << V[i] << " ";
+    while (V[0] == 0 && n != 1) {
+        for (int i = 0; i < n - 1; i++) {
+            V[i] = V[i + 1];
         }
-        cout << endl;
-        cout << min_power << " " << max_power << endl;
+        min_power++;
+        n--;
     }
-	//todo useless arg
-    void Polynomial::Format(Polynomial &Poly) {
-        while (V[n - 1] == 0 && n != 1) {
-            max_power--;
-            n--;
-        }
 
-        while (V[0] == 0 && n != 1) {
-            for (int i = 0; i < n - 1; i++) {
-                V[i] = V[i + 1];
-            }
-            min_power++;
-            n--;
-        }
-
-    }
+}
 
 Polynomial::Polynomial(const Polynomial &other){
-        delete [] this->V;
-        this->n = other.n;
-        this->min_power = other.min_power;
-        this->max_power = other.max_power;
-        this->V = new int[this->n];
-        for (int i = 0; i < this->n; i++) {
-            this->V[i] = other.V[i];
-        }
+    delete [] this->V;
+    this->n = other.n;
+    this->min_power = other.min_power;
+    this->max_power = other.max_power;
+    this->V = new int[this->n];
+    for (int i = 0; i < this->n; i++) {
+        this->V[i] = other.V[i];
     }
+}
 
 
-    Polynomial & Polynomial::operator = (const Polynomial &other)  {
-        //todo check if other == *this
+Polynomial & Polynomial::operator = (const Polynomial &other)  {
+    //fixed check if other == *this
+    if (&other == this) {
+        return *this;
+    } else {
         delete [] this->V;
         this->n = other.n;
         this->max_power = other.max_power;
         this->min_power = other.min_power;
         this->V = new int[n];
-        if (&other == this) {
-            return *this;
-        } else {
-            for (int i = 0; i < n; i++) {
-                this->V[i] = other.V[i];
+        for (int i = 0; i < n; i++) {
+            this->V[i] = other.V[i];
+        }
+    }
+    return *this;
+}
+
+
+//fixed const&
+bool Polynomial::operator == (const Polynomial &lhs) const {
+    Polynomial tmp1(lhs);
+    Polynomial tmp2(*this);
+    tmp1.Format();
+    tmp2.Format();
+    bool check = true;
+    if (tmp1.n != tmp2.n || tmp1.max_power != tmp2.max_power || tmp1.min_power != tmp2.min_power) {
+        return false;
+    } else {
+        for (int i = 0; i < tmp2.n; i++) {
+            if (tmp1.V[i] != tmp2.V[i]) {
+                check = false;
             }
         }
-        return *this;
     }
 
+    return check;
+}
 
-    //todo const&
-    bool Polynomial::operator ==(Polynomial lhs) {
-        lhs.Format(lhs);
-        this->Format(*this);
-        bool check = true;
-        if (lhs.n != this->n || lhs.max_power != this->max_power || lhs.min_power != this->min_power) {
-            return false;
-        } else {
-            for (int i = 0; i < this->n; i++) {
-                if (lhs.V[i] != this->V[i]) {
-                    check = false;
-                }
+bool Polynomial::operator != ( Polynomial &rhs) const {
+    return !(*this == rhs);
+}
+
+//fixed + from +=
+//fixed const Polynomial&, int d
+// a += b, a-= b -> a += d * b
+Polynomial Polynomial::operator+= (const Polynomial &rhs) {
+    *this = sign(rhs, *this, 1);
+    return *this;
+}
+
+Polynomial Polynomial::operator -= (const Polynomial &rhs) {
+    *this = sign(rhs, *this, -1);
+    return *this;
+}
+
+Polynomial Polynomial::operator - () const {
+    //fixed vars from small letter
+    Polynomial res(*this);
+    std::for_each(res.V, res.V + res.n, [](int &i) {i = -i;});
+    return res;
+}
+
+//fixed without unary -
+Polynomial Polynomial::operator - (const Polynomial &rhs) const {
+    Polynomial res = *this;
+    res -= rhs;
+    return res;
+}
+
+Polynomial Polynomial::operator + (const Polynomial &rhs) const {
+    Polynomial res = *this;
+    res += rhs;
+    return res;
+}
+
+
+Polynomial Polynomial::operator * (const Polynomial &rhs) const {
+    int max_degree = rhs.max_power + this->max_power;
+    int min_degree = rhs.min_power + this->min_power;
+    int *s1 = new int[abs(max_degree - min_degree) + 1]();
+    if (min_degree == rhs.min_power) {
+        for (int i = 0; i < rhs.n; i++) {
+            for (int j = 0; j < this->n; j++) {
+                s1[i + j] += rhs.V[i] * this->V[j];
             }
         }
-
-        return check;
-    }
-
-    bool Polynomial::operator != ( Polynomial &rhs) {
-        return !(*this == rhs);
-    }
-
-    //todo + from +=
-    //todo const Polynomial&, int d
-    // a += b, a-= b -> a += d * b
-    Polynomial Polynomial::operator+ (const Polynomial &rhs) const {
-        int max_degree = max(rhs.max_power, this->max_power);
-        int min_degree = min(rhs.min_power, this->min_power);
-
-        int *s1 = new int[abs(max_degree - min_degree) + 1]();
-        int abs_min = abs(this->min_power - rhs.min_power);
-
-        if (min_degree == rhs.min_power) {
-            for (int i = 0; i < rhs.n; i++) {
-                s1[i] += rhs.V[i];
-            }
-
-            for (int i = abs_min; i < this->n + abs_min; i++) {
-                s1[i] += this->V[i - abs_min];
-            }
-
-        } else {
-            for (int i = 0; i < this->n; i++) {
-                s1[i] += this->V[i];
-            }
-            for (int i = abs_min; i < rhs.n + abs_min; i++) {
-                s1[i] += rhs.V[i - abs_min];
-            }
-        }
-
-        Polynomial tmp = Polynomial(min_degree, max_degree, s1);
-        delete [] s1;
-        return tmp;
-    }
-
-    Polynomial Polynomial::operator - () const {
-        //todo vars from small letter
-        Polynomial Res(*this);
-        for (int i = 0; i < n; ++i) {
-            Res.V[i] = -Res.V[i];
-        }
-        return Res;
-    }
-
-    //todo without unary -
-    Polynomial Polynomial::operator - (const Polynomial &rhs) const {
-        Polynomial minuend(*this);
-        minuend = minuend + (-rhs);
-        return minuend;
-    }
-
-    Polynomial Polynomial::operator += (const Polynomial &rhs) {
-        *this = *this + rhs;
-        return *this;
-    }
-
-    Polynomial Polynomial::operator -= (const Polynomial &rhs) {
-        *this = *this - rhs;
-        return *this;
-    }
-
-    Polynomial Polynomial::operator * (const Polynomial &rhs) const {
-        int max_degree = rhs.max_power + this->max_power;
-        int min_degree = rhs.min_power + this->min_power;
-        int *s1 = new int[abs(max_degree - min_degree) + 1]();
-        if (min_degree == rhs.min_power) {
-            for (int i = 0; i < rhs.n; i++) {
-                for (int j = 0; j < this->n; j++) {
-                    s1[i + j] += rhs.V[i] * this->V[j];
-                }
-            }
-        } else {
-            for (int i = 0; i < this->n; i++) {
-                for (int j = 0; j < rhs.n; j++) {
-                    s1[j + i] += this->V[i] * rhs.V[j];
-                }
-            }
-        }
-
-        Polynomial tmp = Polynomial(min_degree, max_degree, s1);
-        delete [] s1;
-        tmp.Format(tmp);
-        return tmp;
-    }
-
-    Polynomial Polynomial::operator / (const int divider) {
-        Polynomial tmp(*this);
-        //todo for_each
-        for (int i = 0; i < tmp.n; i++) {
-            tmp.V[i] /= divider;
-        }
-        tmp.Format(tmp);
-        return tmp;
-    }
-
-    Polynomial & Polynomial::operator *= (const Polynomial &rhs) {
-        *this = *this * rhs;
-        return *this;
-    }
-
-    Polynomial & Polynomial::operator *= (const int multiplier) {
-        *this = *this * multiplier;
-        return *this;
-    }
-
-    Polynomial & Polynomial::operator /= (const int divider) {
-        *this = *this / divider;
-        return *this;
-    }
-
-    int Polynomial::operator[] (const int index) const {
-        if (index > this->max_power || index < this->min_power)
-            return 0;
-        return this->V[index + this->min_power];
-    }
-
-    int & Polynomial::operator[] (const int index)  {
-        int tmp = this->n;
-        if (index > this->max_power)
-            this->max_power = index;
-        if (index < this->min_power)
-            this->min_power = index;
-        this->n = abs(max_power - min_power) + 1;
-        //todo memory-leak
-        int *V2 = new int[this->n]();
-        for (int i = 0; i < tmp; i++)
-            V2[i] = this->V[i];
-        Polynomial temp = Polynomial(min_power, max_power, V2);
-        *this = temp;
-        return this->V[index - this->min_power];
-    }
-
-    //todo O(n)
-    double Polynomial::get(int value) {
-        double result = 0;
+    } else {
         for (int i = 0; i < this->n; i++) {
-            result += std::pow(value, i + this->min_power) * this->V[i];
+            for (int j = 0; j < rhs.n; j++) {
+                s1[j + i] += this->V[i] * rhs.V[j];
+            }
         }
-        return result;
     }
 
-    Polynomial::~Polynomial() {
-        delete [] this->V;
+    Polynomial tmp = Polynomial(min_degree, max_degree, s1);
+    delete [] s1;
+    tmp.Format();
+    return tmp;
+}
+
+Polynomial Polynomial::operator / (const int divider) {
+    Polynomial tmp(*this);
+    //fixed for_each
+    std::for_each(tmp.V, tmp.V + tmp.n, [divider](int &i) { i /= divider;});
+    return tmp;
+}
+
+Polynomial Polynomial::operator *= (const Polynomial &rhs) {
+    *this = *this * rhs;
+    return *this;
+}
+
+Polynomial Polynomial::operator *= (const int multiplier) {
+    *this = *this * multiplier;
+    return *this;
+}
+
+Polynomial Polynomial::operator /= (const int divider) {
+    *this = *this / divider;
+    return *this;
+}
+
+int Polynomial::operator[] (const int index) const {
+    if (index > this->max_power || index < this->min_power)
+        return 0;
+    return this->V[index + this->min_power];
+}
+
+int & Polynomial::operator[] (const int index)  {
+    int tmp = this->n;
+    if (index > this->max_power)
+        this->max_power = index;
+    if (index < this->min_power)
+        this->min_power = index;
+    this->n = abs(max_power - min_power) + 1;
+    //fixed memory-leak
+    int *V2 = new int[this->n]();
+    for (int i = 0; i < tmp; i++)
+        V2[i] = this->V[i];
+    Polynomial temp = Polynomial(min_power, max_power, V2);
+    *this = temp;
+    delete [] V2;
+    return this->V[index - this->min_power];
+}
+
+//fixed O(n)
+double Polynomial::get(int value) {
+    double x = V[0] * std::pow(value, min_power);
+    double result = x;
+    for (int i = 1; i < this->n; i++) {
+        x *= value;
+        result += V[i] * x;
     }
+    return result;
+}
+
+Polynomial::~Polynomial() {
+    delete [] this->V;
+}
 
 
 
-istream& operator >> (istream &in, Polynomial &Poly) {
-    in >> Poly.min_power >> Poly.max_power;
-    Poly.n = abs(Poly.max_power - Poly.min_power) + 1;
-    Poly.V = new int[Poly.n];
-    for (int i = 0; i < Poly.n; i++) {
-        in >> Poly.V[i];
+istream& operator >> (istream &in, Polynomial &poly) {
+    in >> poly.min_power >> poly.max_power;
+    poly.n = abs(poly.max_power - poly.min_power) + 1;
+    poly.V = new int[poly.n];
+    for (int i = 0; i < poly.n; i++) {
+        in >> poly.V[i];
     }
     return in;
 }
 
 
-ostream& operator << (ostream &out, const Polynomial &Poly) {
-    if (Poly.min_power == 0 && Poly.max_power == 0) {
-        out << Poly.V[0];
+ostream& operator << (ostream &out, const Polynomial &poly) {
+    if (poly.min_power == 0 && poly.max_power == 0) {
+        out << poly.V[0];
     } else {
-        for (auto i = Poly.n - 1; i >= 0; i--) {
-            if (Poly.V[i] != 0) {
-                if (Poly.V[i] > 0 && i != Poly.n - 1) {
+        for (auto i = poly.n - 1; i >= 0; i--) {
+            if (poly.V[i] != 0) {
+                if (poly.V[i] > 0 && i != poly.n - 1) {
                     out << "+";
                 }
-                if (i + Poly.min_power == 0) {
-                    out << Poly.V[i];
-                } else if (i + Poly.min_power == 1) {
-                    out << Poly.V[i] << "x";
-                } else if (Poly.V[i] == 1) {
-                    out << "x^" << i + Poly.min_power;
-                } else if (Poly.V[i] == -1) {
-                    out << "-x^" << i + Poly.min_power;
+                if (i + poly.min_power == 0) {
+                    out << poly.V[i];
+                } else if (i + poly.min_power == 1) {
+                    out << poly.V[i] << "x";
+                } else if (poly.V[i] == 1) {
+                    out << "x^" << i + poly.min_power;
+                } else if (poly.V[i] == -1) {
+                    out << "-x^" << i + poly.min_power;
                 } else {
-                    out << Poly.V[i] << "x^" << i + Poly.min_power;
+                    out << poly.V[i] << "x^" << i + poly.min_power;
                 }
             }
         }
@@ -274,16 +252,42 @@ ostream& operator << (ostream &out, const Polynomial &Poly) {
 
 Polynomial operator * (const Polynomial &rhs, const int multiplier) {
     Polynomial tmp = rhs;
-    for (int i = 0; i < tmp.n; i++) {
-        tmp.V[i] *= multiplier;
-    }
+    std::for_each(tmp.V, tmp.V + tmp.n, [multiplier](int &i) { i *= multiplier;});
     return tmp;
 }
 
 Polynomial operator * (const int multiplier, const Polynomial &rhs) {
     Polynomial tmp = rhs;
-    for (int i = 0; i < tmp.n; i++) {
-        tmp.V[i] *= multiplier;
+    std::for_each(tmp.V, tmp.V + tmp.n, [multiplier](int &i) { i *= multiplier;});
+    return tmp;
+}
+
+Polynomial Polynomial::sign(const Polynomial &lhs, const Polynomial &rhs, int d) {
+    int max_degree = max(rhs.max_power, lhs.max_power);
+    int min_degree = min(rhs.min_power, lhs.min_power);
+
+    int *s1 = new int[abs(max_degree - min_degree) + 1]();
+    int abs_min = abs(rhs.min_power - lhs.min_power);
+
+    if (min_degree == rhs.min_power) {
+        for (int i = 0; i < rhs.n; i++) {
+            s1[i] += d * rhs.V[i];
+        }
+
+        for (int i = abs_min; i < lhs.n + abs_min; i++) {
+            s1[i] += d * lhs.V[i - abs_min];
+        }
+
+    } else {
+        for (int i = 0; i < lhs.n; i++) {
+            s1[i] += d * lhs.V[i];
+        }
+        for (int i = abs_min; i < rhs.n + abs_min; i++) {
+            s1[i] += d * rhs.V[i - abs_min];
+        }
     }
+
+    Polynomial tmp = Polynomial(min_degree, max_degree, s1);
+    delete [] s1;
     return tmp;
 }
