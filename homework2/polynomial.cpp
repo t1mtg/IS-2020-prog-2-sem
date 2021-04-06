@@ -89,12 +89,12 @@ bool Polynomial::operator != ( Polynomial &rhs) const {
     return !(*this == rhs);
 }
 
-Polynomial Polynomial::operator+= (const Polynomial &rhs) {
+Polynomial& Polynomial::operator+= (const Polynomial &rhs) {
     *this = sign(rhs, *this, 1);
     return *this;
 }
 
-Polynomial Polynomial::operator -= (const Polynomial &rhs) {
+Polynomial& Polynomial::operator -= (const Polynomial &rhs) {
     *this = sign(rhs, *this, -1);
     return *this;
 }
@@ -148,17 +148,17 @@ Polynomial Polynomial::operator / (const int divider) {
     return tmp;
 }
 
-Polynomial Polynomial::operator *= (const Polynomial &rhs) {
+Polynomial& Polynomial::operator *= (const Polynomial &rhs) {
     *this = *this * rhs;
     return *this;
 }
 
-Polynomial Polynomial::operator *= (const int multiplier) {
+Polynomial& Polynomial::operator *= (const int multiplier) {
     *this = *this * multiplier;
     return *this;
 }
 
-Polynomial Polynomial::operator /= (const int divider) {
+Polynomial& Polynomial::operator /= (const int divider) {
     *this = *this / divider;
     return *this;
 }
