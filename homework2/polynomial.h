@@ -25,13 +25,13 @@ public:
     Polynomial operator - () const;
     Polynomial operator - (const Polynomial &rhs) const;
     //todo & where?
-    Polynomial operator += (const Polynomial &rhs);
-    Polynomial operator -= (const Polynomial &rhs);
+    Polynomial &operator += (const Polynomial &rhs);
+    Polynomial &operator -= (const Polynomial &rhs);
     Polynomial operator * (const Polynomial &rhs) const;
     Polynomial operator / (int divider);
-    Polynomial operator *= (const Polynomial &rhs);
-    Polynomial operator *= (int multiplier);
-    Polynomial operator /= (int divider);
+    Polynomial &operator *= (const Polynomial &rhs);
+    Polynomial &operator *= (int multiplier);
+    Polynomial &operator /= (int divider);
     int operator[] (int index) const;
     int &operator[] (int index);
     double get(int value);
