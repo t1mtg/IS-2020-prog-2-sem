@@ -11,7 +11,7 @@ private:
     int *V = new int[n];
     void Format();
     //fixed should return Polynomail&
-    Polynomial &sign(const Polynomial &lhs, const Polynomial &rhs, int d);
+    Polynomial &sign(Polynomial &lhs, const Polynomial &rhs, int d);
 public:
 
     Polynomial();
