@@ -90,7 +90,7 @@ bool Polynomial::operator != ( Polynomial &rhs) const {
 }
 
 Polynomial& Polynomial::operator+= (const Polynomial &rhs) {
-    *this = sign( *this, rhs, 1);
+    *this = sign(*this, rhs, 1);
     return *this;
 }
 
@@ -252,7 +252,7 @@ Polynomial operator * (const int multiplier, const Polynomial &rhs) {
     return tmp;
 }
 
-Polynomial Polynomial::sign(Polynomial &lhs, const Polynomial &rhs, int d) {
+Polynomial &Polynomial::sign(Polynomial &lhs, const Polynomial &rhs, int d) {
     int max_degree = max(rhs.max_power, lhs.max_power);
     int min_degree = min(rhs.min_power, lhs.min_power);
 
