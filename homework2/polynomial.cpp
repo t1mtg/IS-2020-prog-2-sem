@@ -90,12 +90,12 @@ bool Polynomial::operator != ( Polynomial &rhs) const {
 }
 
 Polynomial& Polynomial::operator+= (const Polynomial &rhs) {
-    *this = sign(rhs, *this, 1);
+    *this = sign( *this, rhs, 1);
     return *this;
 }
 
 Polynomial& Polynomial::operator -= (const Polynomial &rhs) {
-    *this = sign(rhs, *this, -1);
+    *this = sign(*this, rhs, -1);
     return *this;
 }
 
