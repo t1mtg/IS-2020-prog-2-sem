@@ -21,7 +21,6 @@ void Polynomial::show() const {
     cout << endl;
     cout << min_power << " " << max_power << endl;
 }
-//fixed useless arg
 void Polynomial::Format() {
     while (V[n - 1] == 0 && n != 1) {
         max_power--;
@@ -51,7 +50,6 @@ Polynomial::Polynomial(const Polynomial &other){
 
 
 Polynomial & Polynomial::operator = (const Polynomial &other)  {
-    //fixed check if other == *this
     if (&other == this) {
         return *this;
     } else {
@@ -68,7 +66,6 @@ Polynomial & Polynomial::operator = (const Polynomial &other)  {
 }
 
 
-//fixed const&
 bool Polynomial::operator == (const Polynomial &lhs) const {
     Polynomial tmp1(lhs);
     Polynomial tmp2(*this);
@@ -92,9 +89,6 @@ bool Polynomial::operator != ( Polynomial &rhs) const {
     return !(*this == rhs);
 }
 
-//fixed + from +=
-//fixed const Polynomial&, int d
-// a += b, a-= b -> a += d * b
 Polynomial Polynomial::operator+= (const Polynomial &rhs) {
     *this = sign(rhs, *this, 1);
     return *this;
@@ -106,13 +100,11 @@ Polynomial Polynomial::operator -= (const Polynomial &rhs) {
 }
 
 Polynomial Polynomial::operator - () const {
-    //fixed vars from small letter
     Polynomial res(*this);
     std::for_each(res.V, res.V + res.n, [](int &i) {i = -i;});
     return res;
 }
 
-//fixed without unary -
 Polynomial Polynomial::operator - (const Polynomial &rhs) const {
     Polynomial res = *this;
     res -= rhs;
@@ -152,7 +144,6 @@ Polynomial Polynomial::operator * (const Polynomial &rhs) const {
 
 Polynomial Polynomial::operator / (const int divider) {
     Polynomial tmp(*this);
-    //fixed for_each
     std::for_each(tmp.V, tmp.V + tmp.n, [divider](int &i) { i /= divider;});
     return tmp;
 }
@@ -195,7 +186,6 @@ int & Polynomial::operator[] (const int index)  {
     return this->V[index - this->min_power];
 }
 
-//fixed O(n)
 double Polynomial::get(int value) {
     double x = V[0] * std::pow(value, min_power);
     double result = x;

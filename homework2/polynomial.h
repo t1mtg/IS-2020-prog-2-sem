@@ -9,8 +9,8 @@ private:
     int max_power = 0;
     int n = abs(max_power - min_power) + 1;
     int *V = new int[n];
-    //fixed private
     void Format();
+    //todo should return Polynomail&
     Polynomial sign(const Polynomial &lhs, const Polynomial &rhs, int d);
 public:
 
@@ -24,13 +24,12 @@ public:
     Polynomial operator+ (const Polynomial &rhs) const;
     Polynomial operator - () const;
     Polynomial operator - (const Polynomial &rhs) const;
+    //todo & where?
     Polynomial operator += (const Polynomial &rhs);
     Polynomial operator -= (const Polynomial &rhs);
     Polynomial operator * (const Polynomial &rhs) const;
     Polynomial operator / (int divider);
     Polynomial operator *= (const Polynomial &rhs);
-    //fixed const int
-    //fixed & where?
     Polynomial operator *= (int multiplier);
     Polynomial operator /= (int divider);
     int operator[] (int index) const;
