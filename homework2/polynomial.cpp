@@ -252,7 +252,7 @@ Polynomial operator * (const int multiplier, const Polynomial &rhs) {
     return tmp;
 }
 
-Polynomial Polynomial::sign(const Polynomial &lhs, const Polynomial &rhs, int d) {
+Polynomial Polynomial::sign(Polynomial &lhs, const Polynomial &rhs, int d) {
     int max_degree = max(rhs.max_power, lhs.max_power);
     int min_degree = min(rhs.min_power, lhs.min_power);
 
@@ -277,7 +277,7 @@ Polynomial Polynomial::sign(const Polynomial &lhs, const Polynomial &rhs, int d)
         }
     }
 
-    Polynomial tmp = Polynomial(min_degree, max_degree, s1);
+    lhs = Polynomial(min_degree, max_degree, s1);
     delete [] s1;
-    return tmp;
+    return lhs;
 }
