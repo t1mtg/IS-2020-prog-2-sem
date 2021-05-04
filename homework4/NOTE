@@ -1,0 +1,19 @@
+Pulling https://github.com/t1mtg/IS-2020-prog-2-sem/homework4
+Pull finished
+It's compiled
+It's OK
+In file included from main.cpp:1:
+predicate.hpp: In instantiation of 'bool isPartitioned(TIterator, TIterator, TPredicate) [with TIterator = __gnu_cxx::__normal_iterator<int*, std::vector<int> >; TPredicate = check()::<lambda(int)>]':
+main.cpp:55:2:   required from here
+predicate.hpp:65:39: warning: suggest parentheses around '&&' within '||' [-Wparentheses]
+   65 |         if (allOf(first, begin, func) && noneOf(begin + 1, last, func) ||
+      |             ~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+predicate.hpp: In instantiation of 'bool isPartitioned(TIterator, TIterator, TPredicate) [with TIterator = __gnu_cxx::__normal_iterator<int*, std::vector<int> >; TPredicate = check()::<lambda(int)>]':
+main.cpp:56:2:   required from here
+predicate.hpp:65:39: warning: suggest parentheses around '&&' within '||' [-Wparentheses]
+predicate.hpp: In instantiation of 'bool isPartitioned(TIterator, TIterator, TPredicate) [with TIterator = __gnu_cxx::__normal_iterator<int*, std::vector<int> >; TPredicate = check()::<lambda(int)>]':
+main.cpp:57:2:   required from here
+predicate.hpp:65:39: warning: suggest parentheses around '&&' within '||' [-Wparentheses]
+
+
+
