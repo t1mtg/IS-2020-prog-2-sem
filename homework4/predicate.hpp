@@ -58,7 +58,7 @@ bool isPartitioned(TIterator begin, TIterator end, TPredicate func) {
             break;
         }
     }
-    for (i; i != end; i++) {
+    for (; i != end; i++) {
         if (func(*i))
             return false;
     }
