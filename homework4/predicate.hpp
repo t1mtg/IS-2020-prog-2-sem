@@ -37,6 +37,7 @@ bool oneOf(TIterator begin, TIterator end, TPredicate func) {
     return count == 1;
 }
 
+//todo use default template argument std::less
 template <typename TIterator, typename TCompare>
 bool isSorted(TIterator begin, TIterator end, TCompare func) {
     for (;begin != end - 1; ++begin) {
@@ -61,6 +62,7 @@ template <typename TIterator, typename TPredicate>
 bool isPartitioned(TIterator begin, TIterator end, TPredicate func) {
     TIterator first = begin;
     TIterator last = end;
+    //todo N^2
     for (;begin != end; ++begin) {
         if (allOf(first, begin, func) && noneOf(begin + 1, last, func) ||
             noneOf(first, begin, func) && allOf(begin + 1, last, func))
