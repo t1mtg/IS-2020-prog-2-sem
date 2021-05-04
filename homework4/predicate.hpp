@@ -1,4 +1,5 @@
 using namespace std;
+#include <string>
 
 template <typename TIterator, typename TPredicate>
 bool anyOf(TIterator begin, TIterator end, TPredicate func) {
