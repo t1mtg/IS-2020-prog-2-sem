@@ -9,6 +9,7 @@ class Iter {
 private:
     T* cur;
     T* elements;
+    //todo size_t
     int capacity;
     
 public:
@@ -19,7 +20,7 @@ public:
     using reference = T&;
 
     Iter(T* cur, T* elements, int capacity) : cur(cur), elements(elements), capacity(capacity) {};
-
+    //todo default is ok
     Iter& operator = (const Iter& other) {
         cur = other.cur;
         elements = other.elements;
@@ -137,7 +138,7 @@ public:
         }
         return *this;
     }
-
+    //todo empty buffer?
     T first() {
         return elements[_begin];
     }
@@ -146,10 +147,11 @@ public:
         return elements[(_begin + size - 1) % capacity];
     }
 
+    //todo and where are exceptions here?
     T operator [] (int i) const {
         return elements[(_begin + i) % capacity];
     }
-
+    //todo more information in exceptions
     T& operator [] (int i) {
         if (size == 0 || i >= size) {
             throw std::out_of_range("out of range");
