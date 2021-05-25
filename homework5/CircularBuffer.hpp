@@ -154,11 +154,11 @@ public:
             throw std::out_of_range("Buffer is empty");
         }
         if (i < 0) {
-            std::string a = "Your index: " + std::to_string(i) + "Index should be >= 0";
+            std::string a = "Your index: " + std::to_string(i) + ". Index should be >= 0";
             throw std::out_of_range(a);
         }
         if (i > size - 1) {
-            std::string a = "Out of range. Your index: " + std::to_string(i) + "Index should be between 0 and " + std::to_string(size - 1);
+            std::string a = "Out of range. Your index: " + std::to_string(i) + ". Index should be between 0 and " + std::to_string(size - 1);
             throw std::out_of_range(a);
         }
         return elements[(_begin + i) % capacity];
@@ -169,11 +169,11 @@ public:
             throw std::out_of_range("Buffer is empty");
         }
         if (i < 0) {
-            std::string a = "Your index: " + std::to_string(i) + "Index should be >= 0";
+            std::string a = "Your index: " + std::to_string(i) + ". Index should be >= 0";
             throw std::out_of_range(a);
         }
         if (i > size - 1) {
-            std::string a = "Out of range. Your index: " + std::to_string(i) + "Index should be between 0 and " + std::to_string(size - 1);
+            std::string a = "Out of range. Your index: " + std::to_string(i) + ". Index should be between 0 and " + std::to_string(size - 1);
             throw std::out_of_range(a);
         }
         return elements[(_begin + i) % capacity];
