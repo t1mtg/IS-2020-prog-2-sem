@@ -142,6 +142,9 @@ public:
     }
 
     T last() {
+        if (size == 0) {
+            throw std::out_of_range("Buffer is empty");
+        }
         return elements[(_begin + size - 1) % capacity];
     }
 
